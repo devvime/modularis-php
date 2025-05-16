@@ -1,0 +1,15 @@
+{
+    "name": "viimee/router",
+    "description": "PHP Router",
+    "autoload": {
+        "psr-4": {
+            "Viimee\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "devvime"
+        }
+    ],
+    "require": {}
+}

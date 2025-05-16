@@ -1,0 +1,44 @@
+@baseURL = http://localhost:8080
+@token = 'fdjx6411hdr1h11drh1dr1hdr
+
+### GET
+GET {{baseURL}}/test
+Authorization: Bearer {{token}}
+
+### GET with params
+GET {{baseURL}}/test/1/user/steve
+Authorization: Bearer {{token}}
+
+### POST
+POST {{baseURL}}/test
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Steve3",
+  "email": "steve3@test.com",
+}
+
+### POST with params
+POST {{baseURL}}/test/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Steve3",
+  "email": "steve3@test.com",
+}
+
+### PUT with params
+PUT {{baseURL}}/test/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Steve3",
+  "email": "steve3@test.com",
+}
+
+### DELETE with params
+DELETE {{baseURL}}/test/1
+Authorization: Bearer {{token}}
