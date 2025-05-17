@@ -34,12 +34,17 @@ $router->delete('/test/{id:int}', function ($request, $response) {
     $response->render("DELETE with id: {$request->params['id']}");
 });
 
-$router->group('/user')
+$router->group('/user')->start()
     ->get('/steve/{id:int}', function ($request, $response) {
         $response->render('Deu certo! id: ' . $request->params['id']);
     })
     ->post('/create', function ($request, $response) {
         $response->render("POST name: {$request->body->name}");
+    });
+
+$router->group('/product')->start()
+    ->get('/notebook/{id:int}', function ($request, $response) {
+        $response->render('Notebook! id: ' . $request->params['id']);
     });
 
 $router->dispatch();
