@@ -8,6 +8,7 @@ use Viimee\Request;
 use Viimee\Response;
 use Viimee\Interfaces\RouterManagerInterface;
 use Viimee\MiddlewareManager;
+use Viimee\HandlerManager;
 
 class RouterManager extends RouterParams implements RouterManagerInterface
 {
@@ -22,8 +23,8 @@ class RouterManager extends RouterParams implements RouterManagerInterface
     public function addRoute(
         string $method,
         string $path,
-        \Closure $handler,
-        array | \Closure | null $middleware = null
+        callable | string $handler,
+        array | callable | string | null $middleware = null
     ): void {
         $this->routes[$method][$path] = [
             'handler' => $handler,
@@ -46,10 +47,10 @@ class RouterManager extends RouterParams implements RouterManagerInterface
                 $response = new Response();
 
                 MiddlewareManager::verify($handler['middleware'], $request, $response);
-                call_user_func_array($handler['handler'], [$request, $response]);
+                $callbackHandler = HandlerManager::resolveHandler($handler['handler']);
+                call_user_func_array($callbackHandler, [$request, $response]);
                 return;
             }
-
         }
 
         http_response_code(404);

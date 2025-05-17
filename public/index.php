@@ -8,9 +8,7 @@ use Viimee\Router;
 
 $router = new Router();
 
-$router->get('/', function ($request, $response) {
-    $response->render('Hello World!');
-});
+$router->get('/', 'Viimee\Controller\TestController@index');
 
 $router->get('/test', function ($request, $response) {
     $response->render('Test OK!');

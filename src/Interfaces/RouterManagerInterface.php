@@ -9,8 +9,8 @@ interface RouterManagerInterface
     public function addRoute(
         string $method,
         string $path,
-        \Closure $handler,
-        array | \Closure | null $middleware
+        callable $handler,
+        array | callable | string | null $middleware
     ): void;
 
     public function dispatch(): void;
