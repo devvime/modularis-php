@@ -8,22 +8,45 @@ class RouterParams
 {
     public function buildRegexFromRoute(string $route): array
     {
-        $paramNames = [];
+        $paramTypes = [];
+        $regex = preg_replace_callback('#\{(\w+)(?::(\w+))?\}#', function ($matches) use (&$paramTypes) {
+            $param = $matches[1];
+            $type = $matches[2] ?? 'string';
 
-        $regex = preg_replace_callback('#\{(\w+)\}#', function ($matches) use (&$paramNames) {
-            $paramNames[] = $matches[1];
-            return '(?P<' . $matches[1] . '>[^/]+)';
+            $paramTypes[$param] = $type;
+
+            $pattern = match ($type) {
+                'int'   => '\d+',
+                'uuid'  => '[0-9a-fA-F\-]{36}',
+                'slug'  => '[a-z0-9\-]+',
+                'string' => '[^/]+',
+                default => '[^/]+',
+            };
+
+            return "(?P<$param>$pattern)";
         }, $route);
 
-        return ["#^$regex$#", $paramNames];
+        return ["#^$regex$#", $paramTypes];
     }
 
-    public function extractNamedParams(array $matches): array
+    public function extractTypedParams(array $matches, array $paramTypes): array
     {
-        return array_filter(
-            $matches,
-            fn($key) => !is_int($key),
-            ARRAY_FILTER_USE_KEY
-        );
+        $params = [];
+
+        foreach ($matches as $key => $value) {
+            if (!is_int($key)) {
+                $type = $paramTypes[$key] ?? 'string';
+
+                $params[$key] = match ($type) {
+                    'int'   => (int) $value,
+                    'uuid'  => $value,
+                    'slug'  => $value,
+                    'string' => $value,
+                    default => $value,
+                };
+            }
+        }
+
+        return $params;
     }
 }

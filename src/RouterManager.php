@@ -38,10 +38,10 @@ class RouterManager extends RouterParams implements RouterManagerInterface
 
         foreach ($this->routes[$method] ?? [] as $route => $handler) {
 
-            [$regex, $paramNames] = $this->buildRegexFromRoute($route);
+            [$regex, $paramTypes] = $this->buildRegexFromRoute($route);
 
             if (preg_match($regex, $path, $matches)) {
-                $params = $this->extractNamedParams($matches);
+                $params = $this->extractTypedParams($matches, $paramTypes);
                 $request = new Request($params);
                 $response = new Response();
 
@@ -49,10 +49,10 @@ class RouterManager extends RouterParams implements RouterManagerInterface
                 call_user_func_array($handler['handler'], [$request, $response]);
                 return;
             }
+
         }
 
         http_response_code(404);
         echo 'Page not found';
-
     }
 }
