@@ -6,7 +6,7 @@ namespace Viimee\Interfaces;
 
 interface RouterManagerInterface
 {
-    public function add(
+    public function addRoute(
         string $method,
         string $path,
         \Closure $handler,

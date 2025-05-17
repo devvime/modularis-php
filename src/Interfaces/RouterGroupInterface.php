@@ -6,52 +6,47 @@ namespace Viimee\Interfaces;
 
 use Viimee\RouterGroup;
 
-interface RouterInterface
+interface RouterGroupInterface
 {
     public function get(
         string $path,
         \Closure $handler,
         array | \Closure | null $middleware
-    ): void;
+    ): RouterGroup;
 
     public function post(
         string $path,
         \Closure $handler,
         array | \Closure | null $middleware
-    ): void;
+    ): RouterGroup;
 
     public function put(
         string $path,
         \Closure $handler,
         array | \Closure | null $middleware
-    ): void;
+    ): RouterGroup;
 
     public function delete(
         string $path,
         \Closure $handler,
         array | \Closure | null $middleware
-    ): void;
+    ): RouterGroup;
 
     public function patch(
         string $path,
         \Closure $handler,
         array | \Closure | null $middleware
-    ): void;
+    ): RouterGroup;
 
     public function options(
         string $path,
         \Closure $handler,
         array | \Closure | null $middleware
-    ): void;
+    ): RouterGroup;
 
     public function head(
         string $path,
         \Closure $handler,
-        array | \Closure | null $middleware
-    ): void;
-
-    public function group(
-        string $path,
         array | \Closure | null $middleware
     ): RouterGroup;
 }

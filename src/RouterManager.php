@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Viimee;
 
+use Viimee\Request;
 use Viimee\Response;
 use Viimee\Interfaces\RouterManagerInterface;
 use Viimee\MiddlewareManager;
@@ -18,7 +19,7 @@ class RouterManager extends RouterParams implements RouterManagerInterface
         $this->path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 
-    public function add(
+    public function addRoute(
         string $method,
         string $path,
         \Closure $handler,
@@ -44,8 +45,8 @@ class RouterManager extends RouterParams implements RouterManagerInterface
                 $request = new Request($params);
                 $response = new Response();
 
-                MiddlewareManager::verify($handler['middleware'], $request);
-                call_user_func($handler['handler'], $request, $response);
+                MiddlewareManager::verify($handler['middleware'], $request, $response);
+                call_user_func_array($handler['handler'], [$request, $response]);
                 return;
             }
         }

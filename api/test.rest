@@ -29,6 +29,16 @@ Authorization: Bearer {{token}}
   "email": "steve3@test.com",
 }
 
+### GROUP -> POST with params
+POST {{baseURL}}/user/create HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Steve3",
+  "email": "steve3@test.com",
+}
+
 ### PUT with params
 PUT {{baseURL}}/test/1
 Content-Type: application/json

@@ -7,7 +7,7 @@ namespace Viimee;
 class Request
 {
     public array $params = [];
-    public array | null $body = null;
+    public \stdClass | null $body = null;
     public array $query = [];
     public array $headers = [];
 

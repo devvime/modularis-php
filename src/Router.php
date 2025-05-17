@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Viimee;
 
-use Viimee\Interfaces\RouterInterface;
 use Viimee\RouterManager;
+use Viimee\RouterGroup;
+use Viimee\Interfaces\RouterInterface;
 
 class Router extends RouterManager implements RouterInterface
 {
@@ -14,7 +15,7 @@ class Router extends RouterManager implements RouterInterface
         \Closure $handler,
         array | \Closure | null $middleware = null
     ): void {
-        $this->add('GET', $path, $handler, $middleware);
+        $this->addRoute('GET', $path, $handler, $middleware);
     }
 
     public function post(
@@ -22,7 +23,7 @@ class Router extends RouterManager implements RouterInterface
         \Closure $handler,
         array | \Closure | null $middleware = null
     ): void {
-        $this->add('POST', $path, $handler, $middleware);
+        $this->addRoute('POST', $path, $handler, $middleware);
     }
 
     public function put(
@@ -30,7 +31,7 @@ class Router extends RouterManager implements RouterInterface
         \Closure $handler,
         array | \Closure | null $middleware = null
     ): void {
-        $this->add('PUT', $path, $handler, $middleware);
+        $this->addRoute('PUT', $path, $handler, $middleware);
     }
 
     public function delete(
@@ -38,7 +39,7 @@ class Router extends RouterManager implements RouterInterface
         \Closure $handler,
         array | \Closure | null $middleware = null
     ): void {
-        $this->add('DELETE', $path, $handler, $middleware);
+        $this->addRoute('DELETE', $path, $handler, $middleware);
     }
 
     public function patch(
@@ -46,7 +47,7 @@ class Router extends RouterManager implements RouterInterface
         \Closure $handler,
         array | \Closure | null $middleware = null
     ): void {
-        $this->add('PATCH', $path, $handler, $middleware);
+        $this->addRoute('PATCH', $path, $handler, $middleware);
     }
 
     public function options(
@@ -54,7 +55,7 @@ class Router extends RouterManager implements RouterInterface
         \Closure $handler,
         array | \Closure | null $middleware = null
     ): void {
-        $this->add('OPTIONS', $path, $handler, $middleware);
+        $this->addRoute('OPTIONS', $path, $handler, $middleware);
     }
 
     public function head(
@@ -62,6 +63,16 @@ class Router extends RouterManager implements RouterInterface
         \Closure $handler,
         array | \Closure | null $middleware = null
     ): void {
-        $this->add('HEAD', $path, $handler, $middleware);
+        $this->addRoute('HEAD', $path, $handler, $middleware);
+    }
+
+    public function group(
+        string $path,
+        array | \Closure | null $middleware = null
+    ): RouterGroup {
+        $request = new Request([]);
+        $response = new Response();
+        MiddlewareManager::verify($middleware, $request, $response);
+        return new RouterGroup($path, $this);        
     }
 }
