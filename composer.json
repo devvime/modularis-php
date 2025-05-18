@@ -1,6 +1,6 @@
 {
     "name": "devvime/modularis",
-    "description": "PHP Micro Router Framework",
+    "description": "A Minimal and Expressive PHP Micro Routing Framework",
     "keywords": [
         "php",
         "framework",

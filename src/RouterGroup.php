@@ -12,6 +12,7 @@ class RouterGroup
     {
         $this->router = $router;
         $this->router->path = $path;
+        return $this->router;
     }
 
     public function start(): Router

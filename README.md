@@ -1,8 +1,8 @@
 # Modularis PHP
 
-PHP Micro Router Framework
+**A Minimal and Expressive PHP Micro Routing Framework**
 
-### Configurations
+## Getting Started
 
 ```php
 require dirname(__DIR__) . '/vendor/autoload.php';
@@ -11,70 +11,71 @@ use Modularis\Router;
 
 $router = new Router();
 
-// routes here
+// Define your routes here
 
 $router->dispatch();
 ```
 
-### Create routes
+---
 
-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD
+## Defining Routes
+
+Supported HTTP methods: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `OPTIONS`, `HEAD`
 
 ```php
-# $router->get
-# $router->post
-# $router->put
-# $router->delete
-# $router->patch
-# $router->options
-# $router->head
 $router->get('/', function ($request, $response) {
-    $response->render('Hello world!');
+    $response->render('Hello World!');
 });
 ```
 
-### Route with class (Controller@method)
+---
+
+## Route with Controller Method
 
 ```php
 $router->get('/', 'Modularis\Controller\UserController@show');
 ```
 
-### Route with Middleware
+---
+
+## Route with Middleware
 
 ```php
 $router->get('/', function ($request, $response) {
-    $response->render('Hello world!');
-}, function($request, $response) {
-    // middleware code
+    $response->render('Hello World!');
+}, function ($request, $response) {
+    // Middleware logic
 });
 ```
 
-### Route with multiple middlewares
+---
+
+## Route with Multiple Middlewares
 
 ```php
 $router->get('/', function ($request, $response) {
-    $response->render('Hello world!');
+    $response->render('Hello World!');
 }, [
-    function($request, $response) {
-        // middleware code
+    function ($request, $response) {
+        // First middleware logic
     },
-    function($request, $response) {
-        // middleware code
+    function ($request, $response) {
+        // Second middleware logic
     }
 ]);
 ```
 
-### Using classes (Class@Method)
+---
+
+## Middleware Classes
 
 ```php
 $router->get('/', function ($request, $response) {
-    $response->render('Hello world!');
+    $response->render('Hello World!');
 }, 'Modularis\Middleware\AuthMiddleware@verify');
 
-# Using multiple middlewares
-
 $router->get('/', function ($request, $response) {
-    $response->render('Hello world!');
+    $response->render('Hello World!');
 }, [
     'Modularis\Middleware\AuthMiddleware@verify',
     'Modularis\Middleware\AuthMiddleware@permissions'
@@ -86,108 +87,131 @@ $router->get('/', 'Modularis\Controller\AuthController@index', [
 ]);
 ```
 
-### Route group
+---
+
+## Route Groups
+
+### Basic Group
 
 ```php
 $router->group('/user')->start()
     ->get('/', function ($request, $response) {
-        // code ...
+        // GET logic
     })
     ->post('/', function ($request, $response) {
-        // code ...
+        // POST logic
+    })
+    ->put('/', function ($request, $response) {
+        // PUT logic
+    })
+    ->delete('/', function ($request, $response) {
+        // DELETE logic
     });
+```
 
-# Using classes
+### With Controllers
 
+```php
 $router->group('/user')->start()
     ->get('/', 'Modularis\Controller\UserController@index')
-    ->post('/', 'Modularis\Controller\UserController@store');
-    ->put('/', 'Modularis\Controller\UserController@update');
+    ->post('/', 'Modularis\Controller\UserController@store')
+    ->put('/', 'Modularis\Controller\UserController@update')
     ->delete('/', 'Modularis\Controller\UserController@destroy');
 ```
 
-### Route group with middlewares
+---
+
+## Route Group with Middleware
+
+### Anonymous Middleware
 
 ```php
-$router->group('/user', function($request, $response) {
-    // MIdlewares code ...
+$router->group('/user', function ($request, $response) {
+    // Group-level middleware logic
 })->start()
-    ->get('/', 'Modularis\Controller\UserController@index', function($request, $response) {
-        // MIdlewares code ...
+    ->get('/', 'Modularis\Controller\UserController@index', function ($request, $response) {
+        // Route-level middleware logic
     })
-    ->post('/', 'Modularis\Controller\UserController@store');
-    ->put('/', 'Modularis\Controller\UserController@update'), [
-        function($request, $response) {
-            // MIdlewares code ...
+    ->post('/', 'Modularis\Controller\UserController@store')
+    ->put('/', 'Modularis\Controller\UserController@update', [
+        function ($request, $response) {
+            // First middleware logic
         },
-        function($request, $response) {
-            // MIdlewares code ...
+        function ($request, $response) {
+            // Second middleware logic
         }
-    ];
+    ])
     ->delete('/', 'Modularis\Controller\UserController@destroy');
+```
 
-# Using classes (Class@Method)
+### Using Middleware Classes
 
+```php
 $router->group('/user', 'Modularis\Middleware\AuthMiddleware@verify')->start()
     ->get('/', 'Modularis\Controller\UserController@index', 'Modularis\Middleware\AuthMiddleware@permissions')
-    ->post('/', 'Modularis\Controller\UserController@store');
+    ->post('/', 'Modularis\Controller\UserController@store')
     ->put('/', 'Modularis\Controller\UserController@update', [
         'Modularis\Middleware\AuthMiddleware@verify',
         'Modularis\Middleware\AuthMiddleware@permissions'
-    ]);
+    ])
     ->delete('/', 'Modularis\Controller\UserController@destroy');
 ```
 
-# Route params
+---
 
-Param types ('/user/{id:int}/{name:string}/{token:uuid}')
+## Route Parameters
+
+Typed parameters syntax: `/user/{id:int}/{name:string}/{token:uuid}`
 
 ```php
 $router->get('/user/{id:int}', function ($request, $response) {
     $userId = $request->params['id'];
 
-    print_r($request->params); // URL params
-    print_r($request->body); // PHP Inputs $_POST ...
-    print_r($request->query); // URL query params ?page=2&limit=10
-    print_r($request->headers); // Request Headers
+    print_r($request->params);  // URL parameters
+    print_r($request->body);    // POST data
+    print_r($request->query);   // GET query parameters
+    print_r($request->headers); // HTTP headers
 
-    $response->render('Hello World!'); // render text or HTML
-        
+    $response->render('Hello World!');
+
     $response->json([
-        'status'=>200,
-        'message'=>'Success'
-    ]); // render text or HTML
+        'status' => 200,
+        'message' => 'Success'
+    ]);
 });
+```
 
-# Using class
+### Using a Controller
 
+```php
 $router->get('/user/{id:int}', 'Modularis\Controller\UserController@show');
 
-class UserController {
+namespace Modularis\Controller;
 
+class UserController
+{
     public function show($request, $response)
     {
         $userId = $request->params['id'];
 
-        print_r($request->params); // URL params
-        print_r($request->body); // PHP Inputs $_POST ...
-        print_r($request->query); // URL query params ?page=2&limit=10
-        print_r($request->headers); // Request Headers
+        print_r($request->params);
+        print_r($request->body);
+        print_r($request->query);
+        print_r($request->headers);
 
-        $response->render('Hello World!'); // render text or HTML
+        $response->render('Hello World!');
 
         $response->json([
-            'status'=>200,
-            'message'=>'Success'
-        ]); // render text or HTML
+            'status' => 200,
+            'message' => 'Success'
+        ]);
     }
-
 }
 ```
 
-### Router start
+---
 
-call to dispatch function ```php $router->dispatch(); ```.
+## Router Execution
 
 ```php
 require dirname(__DIR__) . '/vendor/autoload.php';
@@ -198,8 +222,8 @@ $router = new Router();
 
 $router->group('/user')->start()
     ->get('/', 'Modularis\Controller\UserController@index')
-    ->post('/', 'Modularis\Controller\UserController@store');
-    ->put('/', 'Modularis\Controller\UserController@update');
+    ->post('/', 'Modularis\Controller\UserController@store')
+    ->put('/', 'Modularis\Controller\UserController@update')
     ->delete('/', 'Modularis\Controller\UserController@destroy');
 
 $router->dispatch();
