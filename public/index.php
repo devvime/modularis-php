@@ -8,7 +8,10 @@ use Viimee\Router;
 
 $router = new Router();
 
-$router->get('/', 'Viimee\Controller\TestController@index');
+$router->get('/', 'Viimee\Controller\TestController@index', [
+    'Viimee\Middleware\TestMiddleware@auth',
+    'Viimee\Middleware\TestMiddleware@permission'
+]);
 
 $router->get('/test', function ($request, $response) {
     $response->render('Test OK!');

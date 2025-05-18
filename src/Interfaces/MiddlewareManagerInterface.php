@@ -10,7 +10,7 @@ use Viimee\Response;
 interface MiddlewareManagerInterface
 {
     public static function verify(
-        array | \Closure | null $middleware,
+        array | callable | string | null $middleware,
         Request $request,
         Response $response
     ): void;

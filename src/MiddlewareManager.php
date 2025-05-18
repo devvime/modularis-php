@@ -11,7 +11,7 @@ use Viimee\Interfaces\MiddlewareManagerInterface;
 class MiddlewareManager implements MiddlewareManagerInterface
 {
     public static function verify(
-        array | \Closure | null $middleware,
+        array | callable | string | null $middleware,
         Request $request,
         Response $response
     ): void {
@@ -20,14 +20,16 @@ class MiddlewareManager implements MiddlewareManagerInterface
 
         if (is_array($middleware)) {
             foreach ($middleware as $item) {
-                call_user_func_array($item, [$request, $response]);
+                $callbackHandler = HandlerManager::resolveHandler($item);
+                call_user_func_array($callbackHandler, [$request, $response]);
             }
 
             return;
         }
 
         if ($middleware !== null) {
-            call_user_func_array($middleware, [$request, $response]);
+            $callbackHandler = HandlerManager::resolveHandler($middleware);
+            call_user_func_array($callbackHandler, [$request, $response]);
         }
 
     }
