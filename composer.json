@@ -9,7 +9,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Modularis\\": "src/"
+            "Modularis\\": "src/",
+            "Tests\\": "tests/"
         }
     },
     "authors": [
@@ -17,7 +18,18 @@
             "name": "devvime"
         }
     ],
+    "scripts": {
+        "test": "./vendor/bin/pest"
+    },
     "require": {
         "PHP": "^8.2.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
