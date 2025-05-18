@@ -1,9 +1,15 @@
 {
-    "name": "viimee/router",
-    "description": "PHP Router",
+    "name": "devvime/modularis",
+    "description": "PHP Micro Router Framework",
+    "keywords": [
+        "php",
+        "framework",
+        "routes"
+    ],
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Viimee\\": "src/"
+            "Modularis\\": "src/"
         }
     },
     "authors": [
@@ -11,5 +17,7 @@
             "name": "devvime"
         }
     ],
-    "require": {}
+    "require": {
+        "PHP": "^8.2.0"
+    }
 }

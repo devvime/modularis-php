@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Viimee;
+namespace Modularis;
 
-use Viimee\Interfaces\RouterInterface;
-use Viimee\RouterManager;
+use Modularis\Interfaces\RouterInterface;
+use Modularis\RouterManager;
 
 class RouterMethods extends RouterManager implements RouterInterface
 {

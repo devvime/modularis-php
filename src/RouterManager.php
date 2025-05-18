@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Viimee;
+namespace Modularis;
 
-use Viimee\Request;
-use Viimee\Response;
-use Viimee\Interfaces\RouterManagerInterface;
-use Viimee\MiddlewareManager;
-use Viimee\HandlerManager;
+use Modularis\Request;
+use Modularis\Response;
+use Modularis\Interfaces\RouterManagerInterface;
+use Modularis\MiddlewareManager;
+use Modularis\HandlerManager;
 
 class RouterManager extends RouterParams implements RouterManagerInterface
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Viimee\Controller;
+namespace Modularis\Controller;
 
-use Viimee\Request;
-use Viimee\Response;
+use Modularis\Request;
+use Modularis\Response;
 
 class TestController
 {

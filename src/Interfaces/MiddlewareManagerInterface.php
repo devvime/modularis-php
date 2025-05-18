@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Viimee\Interfaces;
+namespace Modularis\Interfaces;
 
-use Viimee\Request;
-use Viimee\Response;
+use Modularis\Request;
+use Modularis\Response;
 
 interface MiddlewareManagerInterface
 {

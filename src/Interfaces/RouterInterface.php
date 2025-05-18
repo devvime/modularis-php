@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Viimee\Interfaces;
+namespace Modularis\Interfaces;
 
-use Viimee\RouterMethods;
+use Modularis\RouterMethods;
 
 interface RouterInterface
 {

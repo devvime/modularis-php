@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Viimee;
+namespace Modularis;
 
-use Viimee\RouterGroup;
-use Viimee\RouterMethods;
+use Modularis\RouterGroup;
+use Modularis\RouterMethods;
 
 class Router extends RouterMethods
 {

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use Viimee\Router;
+use Modularis\Router;
 
 $router = new Router();
 
-$router->get('/', 'Viimee\Controller\TestController@index', [
-    'Viimee\Middleware\TestMiddleware@auth',
-    'Viimee\Middleware\TestMiddleware@permission'
+$router->get('/', 'Modularis\Controller\TestController@index', [
+    'Modularis\Middleware\TestMiddleware@auth',
+    'Modularis\Middleware\TestMiddleware@permission'
 ]);
 
 $router->get('/test', function ($request, $response) {

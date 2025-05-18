@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Viimee;
+namespace Modularis;
 
-use Viimee\Request;
-use Viimee\Response;
-use Viimee\Interfaces\MiddlewareManagerInterface;
+use Modularis\Request;
+use Modularis\Response;
+use Modularis\Interfaces\MiddlewareManagerInterface;
 
 class MiddlewareManager implements MiddlewareManagerInterface
 {

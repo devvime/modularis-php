@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Viimee\Interfaces;
+namespace Modularis\Interfaces;
 
 interface RouterManagerInterface
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Viimee\Middleware;
+namespace Modularis\Middleware;
 
 use Exception;
-use Viimee\Request;
-use Viimee\Response;
+use Modularis\Request;
+use Modularis\Response;
 
 class TestMiddleware
 {
