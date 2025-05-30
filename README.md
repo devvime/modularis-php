@@ -33,7 +33,9 @@ $router->get('/', function ($request, $response) {
 ## Route with Controller Method
 
 ```php
-$router->get('/', 'Modularis\Controller\UserController@show');
+use Modularis\Controller\UserController;
+
+$router->get('/', UserController::class .  '@show');
 ```
 
 ---
@@ -70,20 +72,23 @@ $router->get('/', function ($request, $response) {
 ## Middleware Classes
 
 ```php
+use Modularis\Middleware\AuthMiddleware;
+use Modularis\Controller\AuthController;
+
 $router->get('/', function ($request, $response) {
     $response->render('Hello World!');
-}, 'Modularis\Middleware\AuthMiddleware@verify');
+}, AuthMiddleware::class . '@verify');
 
 $router->get('/', function ($request, $response) {
     $response->render('Hello World!');
 }, [
-    'Modularis\Middleware\AuthMiddleware@verify',
-    'Modularis\Middleware\AuthMiddleware@permissions'
+    AuthMiddleware::class . '@verify',
+    AuthMiddleware::class . '@permissions'
 ]);
 
-$router->get('/', 'Modularis\Controller\AuthController@index', [
-    'Modularis\Middleware\AuthMiddleware@verify',
-    'Modularis\Middleware\AuthMiddleware@permissions'
+$router->get('/', AuthController::class . '@index', [
+    AuthMiddleware::class . '@verify',
+    AuthMiddleware::class . '@permissions'
 ]);
 ```
 
@@ -112,11 +117,13 @@ $router->group('/user')->start()
 ### With Controllers
 
 ```php
+use Modularis\Controller\UserController;
+
 $router->group('/user')->start()
-    ->get('/', 'Modularis\Controller\UserController@index')
-    ->post('/', 'Modularis\Controller\UserController@store')
-    ->put('/', 'Modularis\Controller\UserController@update')
-    ->delete('/', 'Modularis\Controller\UserController@destroy');
+    ->get('/', UserController::class . '@index')
+    ->post('/', UserController::class . '@store')
+    ->put('/', UserController::class . '@update')
+    ->delete('/', UserController::class . '@destroy');
 ```
 
 ---
@@ -126,14 +133,16 @@ $router->group('/user')->start()
 ### Anonymous Middleware
 
 ```php
+use Modularis\Controller\UserController;
+
 $router->group('/user', function ($request, $response) {
     // Group-level middleware logic
 })->start()
-    ->get('/', 'Modularis\Controller\UserController@index', function ($request, $response) {
+    ->get('/', UserController::class . '@index', function ($request, $response) {
         // Route-level middleware logic
     })
-    ->post('/', 'Modularis\Controller\UserController@store')
-    ->put('/', 'Modularis\Controller\UserController@update', [
+    ->post('/', UserController::class . '@store')
+    ->put('/', UserController::class . '@update', [
         function ($request, $response) {
             // First middleware logic
         },
@@ -141,20 +150,23 @@ $router->group('/user', function ($request, $response) {
             // Second middleware logic
         }
     ])
-    ->delete('/', 'Modularis\Controller\UserController@destroy');
+    ->delete('/', UserController::class . '@destroy');
 ```
 
 ### Using Middleware Classes
 
 ```php
-$router->group('/user', 'Modularis\Middleware\AuthMiddleware@verify')->start()
-    ->get('/', 'Modularis\Controller\UserController@index', 'Modularis\Middleware\AuthMiddleware@permissions')
-    ->post('/', 'Modularis\Controller\UserController@store')
-    ->put('/', 'Modularis\Controller\UserController@update', [
-        'Modularis\Middleware\AuthMiddleware@verify',
-        'Modularis\Middleware\AuthMiddleware@permissions'
+use Modularis\Controller\UserController;
+use Modularis\Middleware\AuthMiddleware;
+
+$router->group('/user', AuthMiddleware::class . '@verify')->start()
+    ->get('/', UserController::class . '@index', AuthMiddleware::class . '@permissions')
+    ->post('/', UserController::class . '@store')
+    ->put('/', UserController::class . '@update', [
+        AuthMiddleware::class . '@verify',
+        AuthMiddleware::class . '@permissions'
     ])
-    ->delete('/', 'Modularis\Controller\UserController@destroy');
+    ->delete('/', UserController::class . '@destroy');
 ```
 
 ---
@@ -184,8 +196,6 @@ $router->get('/user/{id:int}', function ($request, $response) {
 ### Using a Controller
 
 ```php
-$router->get('/user/{id:int}', 'Modularis\Controller\UserController@show');
-
 namespace Modularis\Controller;
 
 class UserController
@@ -207,6 +217,11 @@ class UserController
         ]);
     }
 }
+//=========================================
+
+use Modularis\Controller\UserController;
+
+$router->get('/user/{id:int}', UserController::class . '@show');
 ```
 
 ---
@@ -217,14 +232,15 @@ class UserController
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Modularis\Router;
+use Modularis\Controller\UserController;
 
 $router = new Router();
 
 $router->group('/user')->start()
-    ->get('/', 'Modularis\Controller\UserController@index')
-    ->post('/', 'Modularis\Controller\UserController@store')
-    ->put('/', 'Modularis\Controller\UserController@update')
-    ->delete('/', 'Modularis\Controller\UserController@destroy');
+    ->get('/', UserController::class . '@index')
+    ->post('/', UserController::class . '@store')
+    ->put('/', UserController::class . '@update')
+    ->delete('/', UserController::class . '@destroy');
 
 $router->dispatch();
 ```

@@ -24,11 +24,13 @@ class RouterManager extends RouterParams implements RouterManagerInterface
         string $method,
         string $path,
         callable | string $handler,
-        array | callable | string | null $middleware = null
+        array | callable | string | null $middleware = null,
+        array | callable | string | null $group_middleware = null
     ): void {
         $this->routes[$method][$path] = [
             'handler' => $handler,
-            'middleware' => $middleware
+            'middleware' => $middleware,
+            'group_middleware' => $group_middleware
         ];
     }
 
@@ -46,6 +48,7 @@ class RouterManager extends RouterParams implements RouterManagerInterface
                 $request = new Request($params);
                 $response = new Response();
 
+                MiddlewareManager::verify($handler['group_middleware'], $request, $response);
                 MiddlewareManager::verify($handler['middleware'], $request, $response);
                 $callbackHandler = HandlerManager::resolveHandler($handler['handler']);
                 call_user_func_array($callbackHandler, [$request, $response]);
@@ -53,7 +56,6 @@ class RouterManager extends RouterParams implements RouterManagerInterface
             }
         }
 
-        http_response_code(404);
-        echo 'Page not found';
+        header('Location: /404');
     }
 }

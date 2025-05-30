@@ -2,9 +2,7 @@
 
 use Modularis\Router;
 
-beforeEach(function () {
-    require_once __DIR__ . '/../../src/Controller/UserController.php';
-});
+use Modularis\Controller\UserController;
 
 it('calls a controller method correctly', function () {
 
@@ -13,7 +11,7 @@ it('calls a controller method correctly', function () {
     
     $router = new Router();
 
-    $router->get('/user', 'Modularis\Controller\UserController@index');
+    $router->get('/user', UserController::class . '@index');
 
     ob_start();
     $router->dispatch();

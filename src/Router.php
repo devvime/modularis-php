@@ -13,9 +13,6 @@ class Router extends RouterMethods
         string $path,
         array | callable | string | null $middleware = null
     ): RouterGroup {
-        $request = new Request([]);
-        $response = new Response();
-        MiddlewareManager::verify($middleware, $request, $response);
-        return new RouterGroup($path, $this);        
+        return new RouterGroup(path: $path, middleware: $middleware, router: $this);        
     }
 }

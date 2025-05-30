@@ -2,10 +2,8 @@
 
 use Modularis\Router;
 
-beforeEach(function () {
-    require_once __DIR__ . '/../../src/Middleware/AuthMiddleware.php';
-    require_once __DIR__ . '/../../src/Controller/UserController.php';
-});
+use Modularis\Middleware\AuthMiddleware;
+use Modularis\Controller\UserController;
 
 it('handles full request flow with parameters and middleware', function () {
 
@@ -14,8 +12,8 @@ it('handles full request flow with parameters and middleware', function () {
 
     $router = new Router();
 
-    $router->get('/user/{id:int}', 'Modularis\Controller\UserController@show', [
-        'Modularis\Middleware\AuthMiddleware@verify'
+    $router->get('/user/{id:int}', UserController::class . '@show', [
+        AuthMiddleware::class . '@verify'
     ]);
 
     ob_start();
@@ -25,5 +23,4 @@ it('handles full request flow with parameters and middleware', function () {
     expect($output)
         ->toContain('verified')
         ->toContain('User ID: 123');
-    
 });

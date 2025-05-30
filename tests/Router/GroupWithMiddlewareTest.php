@@ -2,10 +2,8 @@
 
 use Modularis\Router;
 
-beforeEach(function () {
-    require_once __DIR__ . '/../../src/Middleware/AuthMiddleware.php';
-    require_once __DIR__ . '/../../src/Controller/UserController.php';
-});
+use Modularis\Middleware\AuthMiddleware;
+use Modularis\Controller\UserController;
 
 it('executes group-level and route-level middleware classes', function () {
 
@@ -14,8 +12,9 @@ it('executes group-level and route-level middleware classes', function () {
 
     $router = new Router();
 
-    $router->group('/admin', 'Modularis\Middleware\AuthMiddleware@verify')->start()
-        ->get('/dashboard', 'Modularis\Controller\UserController@index', 'Modularis\Middleware\AuthMiddleware@permissions');
+    $router->group('/admin', AuthMiddleware::class . '@verify')->start()
+        ->get('/dashboard', UserController::class . '@index', AuthMiddleware::class . '@permissions')
+        ->endGround();
 
     ob_start();
     $router->dispatch();
