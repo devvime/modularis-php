@@ -12,9 +12,9 @@ it('executes group-level and route-level middleware classes', function () {
 
     $router = new Router();
 
-    $router->group('/admin', AuthMiddleware::class . '@verify')->start()
+    $router->group('/admin', AuthMiddleware::class . '@verify')->init()
         ->get('/dashboard', UserController::class . '@index', AuthMiddleware::class . '@permissions')
-        ->endGround();
+        ->endGroup();
 
     ob_start();
     $router->dispatch();

@@ -13,6 +13,6 @@ class Router extends RouterMethods
         string $path,
         array | callable | string | null $middleware = null
     ): RouterGroup {
-        return new RouterGroup(path: $path, middleware: $middleware, router: $this);        
+        return new RouterGroup(router: $this, path: $path, middleware: $middleware);        
     }
 }

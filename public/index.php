@@ -10,9 +10,9 @@ use Modularis\Controller\UserController;
 
 $router = new Router();
 
-$router->group('/admin', AuthMiddleware::class . '@verify')->start()
+$router->group('/admin', AuthMiddleware::class . '@verify')->init()
     ->get('/dashboard', UserController::class . '@index', AuthMiddleware::class . '@permissions')
-    ->endGround();
+    ->endGroup();
 
 $router->get('/404', function() {
     echo 'Page not found.';

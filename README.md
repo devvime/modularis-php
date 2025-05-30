@@ -99,7 +99,7 @@ $router->get('/', AuthController::class . '@index', [
 ### Basic Group
 
 ```php
-$router->group('/user')->start()
+$router->group('/user')->init()
     ->get('/', function ($request, $response) {
         // GET logic
     })
@@ -111,7 +111,8 @@ $router->group('/user')->start()
     })
     ->delete('/', function ($request, $response) {
         // DELETE logic
-    });
+    })
+    ->endGroup();
 ```
 
 ### With Controllers
@@ -119,11 +120,12 @@ $router->group('/user')->start()
 ```php
 use Modularis\Controller\UserController;
 
-$router->group('/user')->start()
+$router->group('/user')->init()
     ->get('/', UserController::class . '@index')
     ->post('/', UserController::class . '@store')
     ->put('/', UserController::class . '@update')
-    ->delete('/', UserController::class . '@destroy');
+    ->delete('/', UserController::class . '@destroy')
+    ->endGroup();
 ```
 
 ---
@@ -137,7 +139,7 @@ use Modularis\Controller\UserController;
 
 $router->group('/user', function ($request, $response) {
     // Group-level middleware logic
-})->start()
+})->init()
     ->get('/', UserController::class . '@index', function ($request, $response) {
         // Route-level middleware logic
     })
@@ -150,7 +152,8 @@ $router->group('/user', function ($request, $response) {
             // Second middleware logic
         }
     ])
-    ->delete('/', UserController::class . '@destroy');
+    ->delete('/', UserController::class . '@destroy')
+    ->endGroup();
 ```
 
 ### Using Middleware Classes
@@ -159,14 +162,15 @@ $router->group('/user', function ($request, $response) {
 use Modularis\Controller\UserController;
 use Modularis\Middleware\AuthMiddleware;
 
-$router->group('/user', AuthMiddleware::class . '@verify')->start()
+$router->group('/user', AuthMiddleware::class . '@verify')->init()
     ->get('/', UserController::class . '@index', AuthMiddleware::class . '@permissions')
     ->post('/', UserController::class . '@store')
     ->put('/', UserController::class . '@update', [
         AuthMiddleware::class . '@verify',
         AuthMiddleware::class . '@permissions'
     ])
-    ->delete('/', UserController::class . '@destroy');
+    ->delete('/', UserController::class . '@destroy')
+    ->endGroup();
 ```
 
 ---
@@ -236,11 +240,12 @@ use Modularis\Controller\UserController;
 
 $router = new Router();
 
-$router->group('/user')->start()
+$router->group('/user')->init()
     ->get('/', UserController::class . '@index')
     ->post('/', UserController::class . '@store')
     ->put('/', UserController::class . '@update')
-    ->delete('/', UserController::class . '@destroy');
+    ->delete('/', UserController::class . '@destroy')
+    ->endGroup();
 
 $router->dispatch();
 ```

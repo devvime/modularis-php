@@ -9,8 +9,9 @@ it('responds to grouped routes', function () {
 
     $router = new Router();
 
-    $router->group('/api')->start()
-        ->get('/ping', fn ($req, $res) => $res->render('pong'));
+    $router->group('/api')->init()
+        ->get('/ping', fn ($req, $res) => $res->render('pong'))
+        ->endGroup();
 
     ob_start();
     $router->dispatch();

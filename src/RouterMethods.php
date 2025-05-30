@@ -75,7 +75,7 @@ class RouterMethods extends RouterManager implements RouterInterface
         return $this;
     }
 
-    public function endGround(): void{
+    public function endGroup(): void{
         $this->path = '';
         $this->group_middleware = null;
     }
